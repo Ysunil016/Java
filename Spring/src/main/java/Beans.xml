@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-init-method="init" default-destroy-method="destroy">
+
+	<!-- Just Creating Bean inside IOC Container, that will be Managed Entirely 
+		by Spring -->
+	<!-- <bean id="animalInterface" class="com.Balvas.IOC.Tiger"></bean> -->
+
+	<!-- Dependency Injection of Liternals - Primitive Types to the Object While 
+		Creating Bean of It -->
+	<bean id="animalInterface" class="com.Balvas.IOC.Lion">
+		<!-- Constructor Based DI -->
+		<constructor-arg name="animalName" value="Lion"></constructor-arg>
+		<constructor-arg name="familyName" value="Cat"></constructor-arg>
+
+		<!-- Setter Based DI -->
+		<property name="totalPopulation" value="29000"></property>
+		<property name="averageAge" value="36"></property>
+
+	</bean>
+
+
+	<!-- Dependency at ObjectInjection Level -->
+	<!-- <bean id="employeeInterface" class="com.Balvas.DI.Developer"> <constructor-arg 
+		name="employeeId" value="1009"></constructor-arg> <property name="repository"> 
+		<bean class="com.Balvas.DI.Repository"></bean> </property> </bean> -->
+
+
+	<!-- Dependency at ObjectInjection Level using Ref -->
+
+	<bean id="repositoryBean" class="com.Balvas.DI.Repository"></bean>
+
+
+	<bean id="employeeInterfaceAsManager"
+		class="com.Balvas.DI.ProjectManager">
+		<constructor-arg name="employeeId" value="1009"></constructor-arg>
+		<property name="repository" ref="repositoryBean"></property>
+	</bean>
+
+
+	<bean id="employeeInterfaceAsDeveloper"
+		class="com.Balvas.DI.Developer">
+		<constructor-arg name="employeeId" value="96"></constructor-arg>
+		<property name="repository" ref="repositoryBean"></property>
+	</bean>
+
+
+	<!-- Dependency at ObjectInjection Level using Autowire -->
+
+	<bean id="humanHeart" class="com.Balvas.Autowire.Heart" />
+	<bean id="octopusHeart" class="com.Balvas.Autowire.Heart" />
+
+
+	<bean id="animalAInterface" class="com.Balvas.Autowire.Human"
+		autowire="byName">
+
+	</bean>
+
+
+	<!-- Dependency at ObjectInjection Level using Autowire Annotations -->
+
+	<!-- Enable Context:Annotation Tag for Availing @ Services -->
+	<context:annotation-config />
+
+	<!-- Enable Us to Load Data from Property Outside of this .XML -->
+
+	<context:property-placeholder
+		location="classpath:Heart.properties" />
+
+	<bean id="humanHeartAnn"
+		class="com.Balvas.Autowire.Annotations.Heart_Ann">
+		<!-- <property name="heartCount" value="${Human.heartCount}"></property> -->
+	</bean>
+	<bean id="octopusHeartAnn"
+		class="com.Balvas.Autowire.Annotations.Heart_Ann">
+		<!-- <property name="heartCount" value="${Octopus.heartCount}"></property> -->
+	</bean>
+
+
+	<bean id="animalAnnInterface"
+		class="com.Balvas.Autowire.Annotations.Human_Ann">
+
+	</bean>
+
+
+
+</beans>
