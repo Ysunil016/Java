@@ -2,10 +2,17 @@ package com.Init.Bean;
 
 import java.util.Date;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 public class User {
 
 	private Integer Id;
+
+	@Size(min = 6, max = 20, message = "Name Should be In Between 6-20")
 	private String name;
+
+	@Past(message = "Please Use Past Date")
 	private Date birthDate;
 
 	public Integer getId() {
