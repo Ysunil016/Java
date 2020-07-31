@@ -1,8 +1,13 @@
 package com.Init.Controller;
 
+import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,6 +16,9 @@ import com.Init.Bean.Hello_World;
 @RestController
 @RequestMapping(value = "/v1")
 public class HomeController {
+
+	@Autowired
+	private ResourceBundleMessageSource msgSource;
 
 	@GetMapping(value = "/helloWorld")
 	private String Home() {
@@ -28,6 +36,11 @@ public class HomeController {
 			@PathVariable("city") String city, @PathVariable("country") String country) {
 		Hello_World hW = new Hello_World(name, age, city, country);
 		return hW;
+	}
+
+	@GetMapping(value = "/helloWorld/International")
+	private String HomeInternational(@RequestHeader(value = "Accept-Language", required = false) Locale locale) {
+		return msgSource.getMessage("good.morning.message", null, locale);
 	}
 
 }

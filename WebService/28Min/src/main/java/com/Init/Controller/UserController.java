@@ -1,11 +1,19 @@
 package com.Init.Controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.LinkBuilder;
+import org.springframework.hateoas.server.mvc.ControllerLinkBuilder;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,11 +39,16 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/user/{id}")
-	private User getUser(@PathVariable("id") Integer id) {
+	private EntityModel<User> getUser(@PathVariable("id") Integer id) {
 		User Userfound = userService.findOne(id);
 		if (Userfound == null)
 			throw new UserNotFoundException("Id + " + id);
-		return Userfound;
+
+		EntityModel<User> resource = new EntityModel<User>(Userfound);
+		Link link = linkTo(UserController.class).withRel("all-users");
+		resource.add(link);
+
+		return resource;
 	}
 
 	@PostMapping(value = "/user")
@@ -52,6 +65,7 @@ public class UserController {
 		User Userfound = userService.deleteById(id);
 		if (Userfound == null)
 			throw new UserNotFoundException("Id + " + id);
+
 		return Userfound;
 	}
 
