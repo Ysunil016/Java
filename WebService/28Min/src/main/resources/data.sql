@@ -1,0 +1,6 @@
+insert into user values(10001,sysdate(),'Aashta')
+insert into user values(10002,sysdate(),'Bunny')
+insert into user values(10003,sysdate(),'Agga')
+insert into user values(10004,sysdate(),'Sanjay')
+insert into user values(10005,sysdate(),'Nirmala')
+insert into user values(10006,sysdate(),'Vijay')

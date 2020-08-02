@@ -2,15 +2,20 @@ package com.Init.Bean;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+@Entity
 @ApiModel("User Bean")
 public class User {
 
+	@javax.persistence.Id
+	@GeneratedValue
 	private Integer Id;
 
 	@ApiModelProperty("In Between 6 and 20")
@@ -20,6 +25,9 @@ public class User {
 	@ApiModelProperty("Cannot be in Future")
 	@Past(message = "Please Use Past Date")
 	private Date birthDate;
+
+	public User() {
+	}
 
 	public Integer getId() {
 		return Id;
