@@ -16,6 +16,8 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
+	
+	// Internationalisation
 	@Bean
 	public LocaleResolver localeResolver() {
 		SessionLocaleResolver localeResolver = new SessionLocaleResolver();

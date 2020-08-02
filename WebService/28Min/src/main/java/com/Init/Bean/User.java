@@ -5,13 +5,19 @@ import java.util.Date;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("User Bean")
 public class User {
 
 	private Integer Id;
 
+	@ApiModelProperty("In Between 6 and 20")
 	@Size(min = 6, max = 20, message = "Name Should be In Between 6-20")
 	private String name;
 
+	@ApiModelProperty("Cannot be in Future")
 	@Past(message = "Please Use Past Date")
 	private Date birthDate;
 
