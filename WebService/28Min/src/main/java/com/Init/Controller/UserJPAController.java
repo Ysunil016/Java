@@ -21,18 +21,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.Init.Bean.Post;
 import com.Init.Bean.User;
 import com.Init.Dao.UserDao;
 import com.Init.Exceptions.UserNotFoundException;
+import com.Init.Repository.PostJPARepository;
 import com.Init.Repository.UserJPARepository;
 
 @RestController
 public class UserJPAController {
 
 	@Autowired
-	private UserDao userService;
-	@Autowired
 	private UserJPARepository userRepository;
+	@Autowired
+	private PostJPARepository postRepository;
 
 	@GetMapping(value = "/JPA/users")
 	private List<User> getAllUsers() {
@@ -71,4 +73,27 @@ public class UserJPAController {
 		return HttpStatus.OK;
 	}
 
+	@GetMapping(value = "/JPA/user/{id}/post")
+	private List<Post> getAllPostByUser(@PathVariable("id") Integer id) {
+		Optional<User> user = userRepository.findById(id);
+		if (!user.isPresent()) {
+			throw new UserNotFoundException("User Not Found " + id);
+		}
+		return user.get().getPosts();
+	}
+
+	@PostMapping(value = "/JPA/user/{id}/post")
+	private ResponseEntity<Object> createPost(@PathVariable("id") Integer id, @RequestBody Post post) {
+		Optional<User> user = userRepository.findById(id);
+		if (!user.isPresent()) {
+			throw new UserNotFoundException("User Not Found " + id);
+		}
+
+		post.setUser(user.get());
+		postRepository.save(post);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(post.getId())
+				.toUri();
+
+		return ResponseEntity.created(location).build();
+	}
 }
