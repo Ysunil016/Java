@@ -86,12 +86,7 @@
 			<artifactId>h2</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
-		</dependency>
-
+	
         <!-- User Agent parser -->
         <dependency>
             <groupId>com.github.ua-parser</groupId>
